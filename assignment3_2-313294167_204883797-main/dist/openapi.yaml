@@ -16,8 +16,6 @@ servers:
 
     
 tags:
-  - name: auth
-    description: all authentication related actions
   
   - name: recipes
     description: all recipe related actions
