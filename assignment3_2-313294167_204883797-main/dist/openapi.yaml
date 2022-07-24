@@ -1,0 +1,291 @@
+---
+openapi: 3.0.0
+info:
+  description: |
+    This is a sample Recipes server, where you can save your favorite recipes, 
+    add share your family and personal recipes with other users. 
+  version: "1.0.0"
+  title: Recipe Wizards
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/leah_shahar/recipes/1.0.0
+
+    
+tags:
+  - name: auth
+    description: all authentication related actions
+  
+  - name: recipes
+    description: all recipe related actions
+
+  - name: users
+    description: logged in user actions
+
+
+paths:
+
+  /register:
+    post:
+      tags:
+        - register
+      summary: Add a new user to the server
+      description: A new record containing the new user details is added to the database
+      responses:
+        '201':
+          description: Registered successfully
+          
+        '409':
+          description: Username taken
+          
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: 
+              type: array
+              items:
+                $ref: '#/components/schemas/Register'
+
+  /login:
+    post:
+      tags:
+        - login
+      summary: Login to the server
+      operationId: loginUser
+      responses:
+        '200':
+          description: Logged in successfully
+        '401':
+          description: Username or Password incorrect
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: 
+              type: array
+              items:
+                $ref: '#/components/schemas/Login'
+
+  /logout:
+    post:
+      tags:
+        - logout
+      summary: Logout from the server
+      operationId: logoutUser
+      responses:
+        '200':
+          description: Logged out successfully
+
+
+                     
+  /recipes/random:
+    get:
+      tags:
+        - recipes
+      summary: Get 3 random recipes.
+      operationId: getThreeRandomRecipes
+      responses:
+        '200':
+          description: 3 random recipes returned
+
+
+  /recipes/{recipeId}:
+   get:
+      parameters: 
+      - in: path
+        name: recipeId
+        schema:
+          type: integer
+        required: true
+      tags:
+        - recipes
+      summary: return full details of a recipe by its id
+      operationId: getRecipeDetails
+      responses:
+        '200':
+          description: successful operation
+
+
+  
+  /recipes/search/{query}:
+    get:
+      parameters: 
+        - in: path
+          name: query
+          schema:
+            type: string
+          required: true
+      tags:
+        - recipes
+      summary: search for recipe.
+      operationId: getRecipeInformationQuery
+      responses:
+        '200':
+          description: returns recipes that fit query
+
+                
+
+  /users/personal:
+    post:
+      tags:
+        - users
+      summary: Add personal recipe to user id
+      operationId: addRecipe
+      responses:
+        '201':
+          description: recipe added successfully
+        '406':
+          description: Invalid input
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: 
+              type: array
+              items:
+               $ref: '#/components/schemas/Add'
+
+    get:
+      tags:
+        - recipes
+      summary: get personal recipes by user id.
+      operationId: getPersonalRecipes
+      responses:
+        '200':
+          description: personal recipes returned
+        '204':
+          description: There is no personal recipes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                 $ref: '#/components/schemas/Search'
+  
+  
+  /users/favorites/{id}:
+    post:
+      parameters: 
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+      tags:
+        - user
+      summary: Save a recipe to favorites
+      operationId: markAsFavorite
+      responses:
+        '200':
+          description: The recipe was successfully saved as a favorite
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: 
+              type: array
+              items:
+                $ref: '#/components/schemas/Favorites'
+
+    get:
+      parameters: 
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+      tags:
+        - user
+      summary: Show favorites recipes by user id
+      operationId: getFavoriteRecipes
+      responses:
+        '200':
+          description: get favorite recipes for user by id
+
+                            
+                
+  /users/familyrecipes/{id}:
+    get:
+      parameters: 
+          - in: path
+            name: id
+            schema:
+              type: integer
+            required: true
+      tags:
+        - user
+      summary: Show my family recipes.
+      operationId: familyRecipes
+      responses:
+        '200':
+          description: successful operation
+
+                
+  
+
+
+externalDocs:
+  description: Find out more about Swagger
+  url: 'http://swagger.io'
+  
+components:
+  schemas:
+  
+    Register:
+      type: object
+      properties:
+        username:
+          type: string
+          description: username contains between 3 to 8 letters only
+          example: blabla
+          minLength: 3
+          maxLength: 8
+        firstname:
+          type: string
+        lastname:
+          type: string
+        country:
+          type: string
+        password:
+          type: string
+          description: username contains between 5 to 10 chars, at least one of them number and one of them special char.
+          example: blabla1!
+          minLength: 5
+          maxLength: 10
+
+        passwordconfirmation:
+          type: string
+          description: username contains between 5 to 10 chars, at least one of them number and one of them special char.
+          example: blabla1!
+        email:
+          type: string
+
+    Login:
+      type: object
+      properties:
+          username:
+            type: string
+          password:
+            type: string
+            
+    Add:
+      type: object
+      properties:
+          searchparam:
+            type: string
+
+    Favorites:
+      type: object
+      properties:
+          recipe_id:
+            type: integer
+
+    LastWatched:
+      type: object
+      properties:
+          recipe_id:
+            type: integer
