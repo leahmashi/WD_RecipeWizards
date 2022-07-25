@@ -25,31 +25,34 @@ export default {
     title: {
       type: String,
       required: true
-    }
+    },
   },
+
   data() {
     return {
       recipes: []
     };
   },
   mounted() {
+        this.$root.$on("randomRecipes", () => {
     this.updateRecipes();
+        });
+    this.updateRecipes();
+
   },
+
+  
   methods: {
     async updateRecipes() {
       try {
         const response = await this.axios.get(
-          store.state.server_domain+"/recipes/random",
-          //"https://recipeWizard.cs.bgu.ac.il/recipes/random",
-          //process.env.server_domain + "/recipes/random",
-          // "https://test-for-3-2.herokuapp.com/recipes/random"
+          store.state.server_domain + "/recipes/random",
         );
 
         console.log(response.data);
         const recipes = response.data;
         this.recipes = [];
         this.recipes.push(...recipes);
-        // console.log(this.recipes);
       } catch (error) {
         console.log(error);
       }

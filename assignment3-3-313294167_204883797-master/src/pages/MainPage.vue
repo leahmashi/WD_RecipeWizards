@@ -4,6 +4,7 @@
       <h1 class="title">Explore this recipes</h1>
       <RecipePreviewList title="Random Recipes" class="RandomRecipes center" />
       <button v-on:click="getRandom">Accio 3 new recipes</button>
+
     </div>
     <div class="column" id="right">
       <router-link v-if="!$root.store.username" to="/login" tag="button">You need to Login to view this</router-link>
@@ -22,6 +23,7 @@
 </template>
 
 <script>
+
 import RecipePreviewList from "../components/RecipePreviewList";
 export default {
   name: "MainPage",
@@ -31,7 +33,7 @@ export default {
   methods:
   {
     getRandom() {
-      RecipePreviewList.updateRecipes();
+     this.$root.$emit("randomRecipes")
     }
   }
 };

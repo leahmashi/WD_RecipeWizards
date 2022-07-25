@@ -1,7 +1,6 @@
 <template>
   <div class="container">
     <h1 class="title">Register</h1>
-    <!-- <b-form @submit.prevent="onRegister" @reset.prevent="onReset" @submit="newUser"> -->
     <b-form @submit.prevent="onRegister" @reset.prevent="onReset">
       <b-form-group
         id="input-group-username"
@@ -198,7 +197,7 @@ export default {
       },
       countries: [{ value: null, text: "", disabled: true }],
       errors: [],
-      validated: false
+      validated: false,
     };
   },
   validations: {
@@ -237,40 +236,26 @@ export default {
     // console.log($v);
   },
   methods: {
-    // newUser() {
-    //   axios.post("/Register", {
-    //     username: this.username,
-    //     firstname: this.firstName,
-    //     lastname: this.lastName,
-    //     country: this.country,
-    //     password: this.password,
-    //     email: this.email,
-    //     profilePic: null
-    //   }).then((res) => {
-    //     alert(res.data.errors);
-    //   }).catch(() => {
-    //     alert("something went wrong");
-    //   })
-    // },
     validateState(param) {
       const { $dirty, $error } = this.$v.form[param];
       return $dirty ? !$error : null;
     },
     async Register() {
       try {
-        const response = await this.axios.post(
-          // "https://test-for-3-2.herokuapp.com/user/Register",
-          this.$root.store.server_domain + "/Register",
-          {
-            username: this.form.username,
-            firstname: this.form.firstname,
-            lastname: this.form.lastname,
-            country: this.form.country,
-            password: this.form.password,
-            email: this.form.email,
-            profilePic: null
-          }
-        );
+        console.log(this.$root.store.server_domain + "/Register")
+        const url=this.$root.store.server_domain + "/Register";
+        const body={
+            "username": this.form.username,
+            "firstname": this.form.firstname,
+            "lastname": this.form.lastname,
+            "country": this.form.country,
+            "password": this.form.password,
+            "email": this.form.email,
+            "profilePic": null
+          };
+        console.log(url)
+        console.log(body)
+        const response = await this.axios.post(url,body);
         console.log(response);
         this.$router.push("/login");
       } catch (err) {
