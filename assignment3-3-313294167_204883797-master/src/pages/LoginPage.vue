@@ -95,11 +95,7 @@ export default {
       try {
         
         const response = await this.axios.post(
-          // "https://test-for-3-2.herokuapp.com/user/Login",
-          process.env.server_domain +"/Login",
-          // "http://132.72.65.211:80/Login",
-          // "http://132.73.84.100:80/Login",
-
+          this.$root.store.server_domain +"/Login",
           {
             username: this.form.username,
             password: this.form.password

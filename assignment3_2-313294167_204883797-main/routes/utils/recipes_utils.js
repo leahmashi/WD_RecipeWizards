@@ -123,7 +123,7 @@ function extractPreviewRecipeDetails(user_id, recipes_info)
             }
         }
         
-        let seen = DButils.execQuery(`SELECT seen FROM last_viewed_recipes WHERE recipeID='${data.id}' AND userID='${user_id}'`)
+        let seen = DButils.execQuery(`SELECT viewed FROM last_viewed_recipes WHERE recipeID='${data.id}' AND userID='${user_id}'`)
         let viewed;
         if (seen == 0 || seen == 1 || seen == 2 || seen == 3) { viewed = true; }
         else { viewed = false; }
@@ -162,7 +162,7 @@ async function getThreeRandomRecipes(user_id)
 
 async function addRecipe(user_id,recipe)
 {
-    await DButils.execQuery(`INSERT INTO last_viewed_recipes(recipeID,userID, title, readyInMinutes,popularity, vegan, vegetarian, glutenFree,viewed, image) VALUES (${recipe.id},${user_id},'${recipe.title}',${recipe.readyInMinutes},${recipe.popularity},${recipe.vegan}, ${recipe.vegetarian},${recipe.glutenFree}, ${1},'${recipe.image}' )`);
+    await DButils.execQuery(`INSERT INTO last_viewed_recipes(recipeID,userID, title, readyInMinutes,popularity, vegan, vegetarian, glutenFree, viewed, image) VALUES (${recipe.id},${user_id},'${recipe.title}',${recipe.readyInMinutes},${recipe.popularity},${recipe.vegan}, ${recipe.vegetarian},${recipe.glutenFree}, ${1},'${recipe.image}' )`);
 }
 
 async function getPlace(place){

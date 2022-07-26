@@ -6,23 +6,46 @@
           <b-nav-item><router-link :to="{ name: 'main' }">&nbsp;Main&nbsp;</router-link></b-nav-item>
           <b-nav-item><router-link :to="{ name: 'search' }">&nbsp;Search&nbsp;</router-link></b-nav-item>
           <b-nav-item><router-link :to="{ name: 'about' }">&nbsp;About Us&nbsp;</router-link></b-nav-item>
+        
+          <b-navbar-nav class="ml-auto">
+            <span v-if="!$root.store.username" id="guest">
+              <b-nav-item-dropdown text="Guest" right>
+                <b-dropdown-item>
+                  <router-link :to="{ name: 'register' }" id="registerLink">Register</router-link>
+                </b-dropdown-item>
+                <b-dropdown-item>
+                  <router-link :to="{ name: 'login' }" id="loginLink">Login</router-link>
+                </b-dropdown-item>
+              </b-nav-item-dropdown>
+            </span>
+            <span v-else id="user">
+              <b-nav-item-dropdown text="Personal">
+                <b-dropdown-item>
+                  <router-link :to="{ name: 'favorites' }" id="favoritesLink">Favorites</router-link>
+                </b-dropdown-item>
+                <b-dropdown-item>
+                  <router-link :to="{ name: 'private' }" id="privateLink">Private</router-link>
+                </b-dropdown-item>
+                <b-dropdown-item>
+                  <router-link :to="{ name: 'family' }" id="familyLink">Family</router-link>
+                </b-dropdown-item>
+              </b-nav-item-dropdown>
+              <b-nav-item-dropdown right>
+                <template #button-content>
+                  {{ $root.store.username }}
+                </template>
+                <!-- <b-dropdown-item>
+                  <router-link :to="{ name: 'login' }" id="loginLink">Login</router-link>
+                </b-dropdown-item> -->
+                <b-dropdown-item>
+                  <button @click="Logout">Logout</button>
+                </b-dropdown-item>
+              </b-nav-item-dropdown>
+            </span>
+          </b-navbar-nav>
         </b-navbar-nav>
-        {{ $root.store.username }}
-        <b-navbar-nav class="ml-auto">
-          <span v-if="!$root.store.username">
-            <b-nav-item-dropdown toggle-class="nav-link-custom" text="Guest" right>
-              <b-dropdown-item>
-                <router-link :to="{ name: 'register' }" id="registerLink">Register</router-link>
-              </b-dropdown-item>
-              <b-dropdown-item>
-                <router-link :to="{ name: 'login' }" id="loginLink">Login</router-link>
-              </b-dropdown-item>
-            </b-nav-item-dropdown>
-          </span>
-          <span v-else>
-            {{ $root.store.username }}: <button @click="Logout">Logout</button>|
-          </span>
-        </b-navbar-nav>
+      </b-navbar>
+      
     </div>
     <div id="routerView"><router-view /></div>
     <div id="footer">
@@ -94,6 +117,19 @@ export default {
 
 #routerView {
   min-height: 92vh;
+}
+
+#user {
+  display: flex;
+}
+
+#guest {
+  float: right;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    color: #fdfdfe;
+    font-weight: bold;
 }
 
 </style>
