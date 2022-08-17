@@ -89,7 +89,7 @@ async function getRandomRecipes()
  * @param {*} recipes_info 
  * @returns 
  */
-async function extractPreviewRecipeDetails(user_name, recipes_info)
+function extractPreviewRecipeDetails(user_name, recipes_info)
 {
     return recipes_info.map((recipe_info) => {
         let data = recipe_info;
@@ -122,18 +122,12 @@ async function extractPreviewRecipeDetails(user_name, recipes_info)
                 favorites: false
             }
         }
-        console.log(data.id)
-        console.log(user_name)
         const seen = DButils.execQuery(`SELECT viewed FROM last_viewed_recipes WHERE recipeID='${data.id}' AND user_name='${user_name}'`)
-        console.log(seen.data)
-        console.log(seen)
         let viewed = false;
         if (seen != []) { viewed = true; }
 
         let fav = false;
         const favDB = DButils.execQuery(`SELECT * FROM favorite_recipes WHERE webRecipeID='${data.id}' AND user_name='${user_name}'`)
-        console.log(favDB.data)
-        console.log(favDB)
         if (favDB != []) { fav = true; }
 
 

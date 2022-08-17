@@ -26,6 +26,7 @@
               <div class="mb-3">
                 <div>Ready in {{ recipe.readyInMinutes }} minutes</div>
                 <div>Likes: {{ recipe.aggregateLikes }} likes</div>
+                <div>serves: {{ recipe.servings }}</div>
               </div>
               Ingredients:
               <ul>

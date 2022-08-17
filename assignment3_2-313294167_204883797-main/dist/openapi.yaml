@@ -165,7 +165,7 @@ paths:
                  $ref: '#/components/schemas/Search'
   
   
-  /users/favorites/{id}:
+  /users/favorites:
     post:
       parameters: 
         - in: path

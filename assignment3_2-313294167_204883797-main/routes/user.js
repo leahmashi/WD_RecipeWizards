@@ -145,9 +145,24 @@ router.get('/familyrecipes', async (req,res,next) => {
   {
     const user_name = req.session.user_name;
     const recipes_id = await user_utils.getThreeLastViewed(user_name);
-    console.log(recipes_id)
     let recipes_id_array = [];
     recipes_id.map((element) => recipes_id_array.push(element.recipeID)); //extracting the recipe ids into array
+    const results = await recipe_utils.getRecipesPreview(user_name, recipes_id_array);
+    res.status(200).send(results);
+  } catch(error) {
+    next(error); 
+  }
+});
+
+/**
+ * This path returns a preview of the last searched recipe by this user
+ */
+router.get('/searchHistory/:recipeId', async (req,res,next) => {
+  try
+  {
+    const user_name = req.session.user_name;
+    let recipes_id_array = [];
+    recipes_id_array.push(req.params.recipeId); 
     const results = await recipe_utils.getRecipesPreview(user_name, recipes_id_array);
     res.status(200).send(results);
   } catch(error) {

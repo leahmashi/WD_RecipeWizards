@@ -2,8 +2,12 @@
 <div>
   <router-link
     :to="{ name: 'recipe', params: { recipeId: recipe.id } }"
-    class="recipe-preview" v-if="recipe_viewed" style="color: purple"
+    class="recipe-preview" 
   >
+   <!-- <ruter-link
+    :to="{ name: 'recipe', params: { recipeId: recipe.id } }"
+    class="recipe-preview" v-if="recipe_viewed" style="color: purple"
+  > -->
     <div>
       <b-card
         v-bind:title= "recipe.title"
@@ -21,11 +25,15 @@
       </b-card>
     </div>
   </router-link>
-  <router-link 
+  <!-- <router-link 
+    :to="{ name: 'recipe', params: { recipeId: recipe.id } }"
+    class="recipe-preview"
+  >
+  <! <router-link 
     :to="{ name: 'recipe', params: { recipeId: recipe.id } }"
     class="recipe-preview" v-else style="color: blue"
-  >
-    <div>
+  > -->
+    <!-- <div>
       <b-card
         v-bind:title= "recipe.title"
         v-bind:img-src= "recipe.image"
@@ -41,7 +49,7 @@
       </b-card-text>
       </b-card>
     </div>
-  </router-link>
+  </router-link>  -->
 </div>
 </template>
 
@@ -52,12 +60,12 @@ export default {
     this.axios.get(this.recipe.image).then((i) => {
       this.image_load = true;
     });
-    console.log(this.recipe.viewed)
   },
   data() {
+    console.log(this.recipe);
     return {
       image_load: false,
-      recipe_viewed: this.recipe.viewed,
+      // recipe_viewed: this.recipe.viewed,
     };
   },
   props: {

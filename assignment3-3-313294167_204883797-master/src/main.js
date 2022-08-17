@@ -80,6 +80,7 @@ const shared_data = {
     this.username = undefined;
   },
   server_domain: state.server_domain,
+  lastSearched: null,
 };
 console.log(shared_data);
 // Vue.prototype.$root.store = shared_data;
