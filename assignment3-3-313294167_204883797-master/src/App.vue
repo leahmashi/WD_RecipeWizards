@@ -5,6 +5,7 @@
         <b-navbar-nav>
           <b-nav-item><router-link :to="{ name: 'main' }">&nbsp;Main&nbsp;</router-link></b-nav-item>
           <b-nav-item><router-link :to="{ name: 'search' }">&nbsp;Search&nbsp;</router-link></b-nav-item>
+          <b-nav-item><router-link :to="{ name: 'newRecipe' }">&nbsp;Add Recipe&nbsp;</router-link></b-nav-item>
           <b-nav-item><router-link :to="{ name: 'about' }">&nbsp;About Us&nbsp;</router-link></b-nav-item>
         
           <b-navbar-nav class="ml-auto">
@@ -34,9 +35,6 @@
                 <template #button-content>
                   {{ $root.store.username }}
                 </template>
-                <!-- <b-dropdown-item>
-                  <router-link :to="{ name: 'login' }" id="loginLink">Login</router-link>
-                </b-dropdown-item> -->
                 <b-dropdown-item>
                   <button @click="Logout">Logout</button>
                 </b-dropdown-item>
@@ -58,16 +56,23 @@
 export default {
   name: "App",
   methods: {
-    Logout() {
+    async Logout() {
       this.$root.store.logout();
       this.$root.toast("Logout", "User logged out successfully", "success");
-
+      try{
+      const response = await this.axios.post(
+          this.$root.store.server_domain +"/Logout",)
+      }
+      catch (err) {
+        console.log(err.response);
+        this.form.submitError = err.response.data.message;
+      
       this.$router.push("/").catch(() => {
         this.$forceUpdate();
       });
     }
   }
-};
+}};
 </script>
 
 <style lang="scss" scoped>
@@ -116,7 +121,10 @@ export default {
 }
 
 #routerView {
-  min-height: 92vh;
+    max-height: 92vh;
+    min-height: 92vh;
+    margin: 0 auto;
+    padding-top: 2rem;
 }
 
 #user {
@@ -127,9 +135,8 @@ export default {
   float: right;
 }
 
-.navbar-dark .navbar-nav .nav-link {
-    color: #fdfdfe;
-    font-weight: bold;
+ul.dropdown-menu.show {
+    background: green;
 }
 
 </style>

@@ -33,6 +33,26 @@ const routes = [
     component: () => import("./pages/RecipeViewPage"),
   },
   {
+    path: "/favorites",
+    name: "favorites",
+    component: () => import("./pages/MyFavoritesPage"),
+  },
+  {
+    path: "/newRecipe",
+    name: "newRecipe",
+    component: () => import("./pages/MakeRecipePage"),
+  },
+  {
+    path: "/family",
+    name: "family",
+    component: () => import("./pages/MyFamilyPage"),
+  },
+  {
+    path: "/private",
+    name: "private",
+    component: () => import("./pages/MyPrivatePage"),
+  },
+  {
     path: "*",
     name: "notFound",
     component: NotFound,
