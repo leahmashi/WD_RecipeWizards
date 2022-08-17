@@ -1,21 +1,48 @@
 <template>
+<div>
   <router-link
     :to="{ name: 'recipe', params: { recipeId: recipe.id } }"
-    class="recipe-preview"
+    class="recipe-preview" v-if="recipe_viewed" style="color: purple"
   >
-    <div class="recipe-body">
-      <img v-if="image_load" :src="recipe.image" class="recipe-image" />
-    </div>
-    <div class="recipe-footer">
-      <div :title="recipe.title" class="recipe-title">
-        {{ recipe.title }}
-      </div>
-      <ul class="recipe-overview">
-        <li>{{ recipe.readyInMinutes }} minutes</li>
-        <li>{{ recipe.aggregateLikes }} likes</li>
-      </ul>
+    <div>
+      <b-card
+        v-bind:title= "recipe.title"
+        v-bind:img-src= "recipe.image"
+        img-alt="Image"
+        img-top
+        tag="article"
+        style="max-width: 20rem;"
+        class="mb-2"
+      >
+      <b-card-text>
+        {{ recipe.readyInMinutes }} minutes &#9200; <br>
+        {{ recipe.aggregateLikes }} likes &#128077;
+      </b-card-text>
+      </b-card>
     </div>
   </router-link>
+  <router-link 
+    :to="{ name: 'recipe', params: { recipeId: recipe.id } }"
+    class="recipe-preview" v-else style="color: blue"
+  >
+    <div>
+      <b-card
+        v-bind:title= "recipe.title"
+        v-bind:img-src= "recipe.image"
+        img-alt="Image"
+        img-top
+        tag="article"
+        style="max-width: 20rem;"
+        class="mb-2"
+      >
+      <b-card-text>
+        {{ recipe.readyInMinutes }} minutes &#9200; <br>
+        {{ recipe.aggregateLikes }} likes &#128077;
+      </b-card-text>
+      </b-card>
+    </div>
+  </router-link>
+</div>
 </template>
 
 <script>
@@ -25,10 +52,12 @@ export default {
     this.axios.get(this.recipe.image).then((i) => {
       this.image_load = true;
     });
+    console.log(this.recipe.viewed)
   },
   data() {
     return {
-      image_load: false
+      image_load: false,
+      recipe_viewed: this.recipe.viewed,
     };
   },
   props: {
@@ -36,30 +65,6 @@ export default {
       type: Object,
       required: true
     }
-
-    // id: {
-    //   type: Number,
-    //   required: true
-    // },
-    // title: {
-    //   type: String,
-    //   required: true
-    // },
-    // readyInMinutes: {
-    //   type: Number,
-    //   required: true
-    // },
-    // image: {
-    //   type: String,
-    //   required: true
-    // },
-    // aggregateLikes: {
-    //   type: Number,
-    //   required: false,
-    //   default() {
-    //     return undefined;
-    //   }
-    // }
   }
 };
 </script>
@@ -72,6 +77,7 @@ export default {
   position: relative;
   margin: 10px 10px;
 }
+
 .recipe-preview > .recipe-body {
   width: 100%;
   height: 200px;
@@ -139,4 +145,10 @@ export default {
   display: table-cell;
   text-align: center;
 }
+
+.card-title {
+    margin-bottom: .75rem;
+    font-size: 1rem;
+}
+
 </style>

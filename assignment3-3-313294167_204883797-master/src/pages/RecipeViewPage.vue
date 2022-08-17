@@ -1,42 +1,54 @@
 <template>
-  <div class="container">
+  <div class="container"> 
     <div v-if="recipe">
       <div class="recipe-header mt-3 mb-4">
-        <h1>{{ recipe.title }}</h1>
+        <h1 id="recipeTitle">{{ recipe.title }}</h1>
         <img :src="recipe.image" class="center" />
-      </div>
-      <div class="recipe-body">
-        <div class="wrapper">
-          <div class="wrapped">
-            <div class="mb-3">
-              <div>Ready in {{ recipe.readyInMinutes }} minutes</div>
-              <div>Likes: {{ recipe.aggregateLikes }} likes</div>
-            </div>
-            Ingredients:
-            <ul>
-              <li
-                v-for="(r, index) in recipe.extendedIngredients"
-                :key="index + '_' + r.id"
-              >
-                {{ r.original }}
-              </li>
-            </ul>
+        <div id=recipesMarkings>
+          <div class="col" v-if="recipe.vegan == true">
+            <img src="../assets/veganIcon.jpg" width="15%" height="15%" />
           </div>
-          <div class="wrapped">
-            Instructions:
-            <ol>
-              <li v-for="s in recipe._instructions" :key="s.number">
-                {{ s.step }}
-              </li>
-            </ol>
+          <div class="col" v-if="recipe.vegetarian == true">
+            <img src="../assets/vegetarianIcon.png" width="15%" height="15%" />
+          </div>
+          <div class="col" v-if="recipe.glutenFree == true">
+            <img src="../assets/glutenFreeIcon.jpg" width="15%" height="15%" />
+          </div>
+          <div class="col" v-if="recipe.seen == true">
+            <img src="../assets/seenIcon.png" width="15%" height="15%" />
           </div>
         </div>
       </div>
-      <!-- <pre>
-      {{ $route.params }}
-      {{ recipe }}
-    </pre
-      > -->
+      <div class="recipe-body">
+        <div>
+          <div class="wrapper">
+            <div class="wrapped">
+              <div class="mb-3">
+                <div>Ready in {{ recipe.readyInMinutes }} minutes</div>
+                <div>Likes: {{ recipe.aggregateLikes }} likes</div>
+              </div>
+              Ingredients:
+              <ul>
+                <li
+                  v-for="(ingredient, index) in recipe.ingredients"
+                  :key="index + '_' + ingredient.id"
+                >
+                  {{ ingredient[2] + " " + ingredient[1] + " " + ingredient[0] }}
+                </li>
+              </ul>
+            </div>
+            <div class="wrapped">
+              Instructions:
+              <ol>
+                <li v-for="step in recipe.steps" :key="step.number">
+                  {{ step }}
+                </li>
+              </ol>
+            </div>
+          </div>
+          <button v-on:click="addToFavorites">Click here to add the recipe to your favorite recipes</button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -51,18 +63,12 @@ export default {
   async created() {
     try {
       let response;
-      // response = this.$route.params.response;
 
       try {
         response = await this.axios.get(
-          // "https://test-for-3-2.herokuapp.com/recipes/info",
-          process.env.server_domain + "/recipes/info",
-          {
-            params: { id: this.$route.params.recipeId }
-          }
+          this.$root.store.server_domain + "/recipes/" + this.$route.params.recipeId    
         );
 
-        // console.log("response.status", response.status);
         if (response.status !== 200) this.$router.replace("/NotFound");
       } catch (error) {
         console.log("error.response.status", error.response.status);
@@ -71,27 +77,32 @@ export default {
       }
 
       let {
-        analyzedInstructions,
-        instructions,
-        extendedIngredients,
-        aggregateLikes,
-        readyInMinutes,
-        image,
-        title
-      } = response.data.recipe;
+        id: id,
+        title : title,
+        readyInMinutes: readyInMinutes,
+        image: image,
+        aggregateLikes: aggregateLikes,
+        vegan: vegan,
+        vegetarian: vegetarian,
+        glutenFree: glutenFree,
+        viewed: seen,
+        favorites: fav,
+        ingredients: ingredients,
+        servings: servings,
+        steps: steps,
+      } = response.data;
 
-      let _instructions = analyzedInstructions
-        .map((fstep) => {
-          fstep.steps[0].step = fstep.name + fstep.steps[0].step;
-          return fstep.steps;
-        })
-        .reduce((a, b) => [...a, ...b], []);
+      console.log(response.data)
 
       let _recipe = {
-        instructions,
-        _instructions,
-        analyzedInstructions,
-        extendedIngredients,
+        vegan,
+        vegetarian,
+        glutenFree,
+        seen,
+        fav,
+        servings,
+        steps,
+        ingredients,
         aggregateLikes,
         readyInMinutes,
         image,
@@ -99,8 +110,33 @@ export default {
       };
 
       this.recipe = _recipe;
+
     } catch (error) {
       console.log(error);
+    }
+  },
+  methods:{ 
+    async addToFavorites() {
+      try{
+      const url=this.$root.store.server_domain + "/users/favorites"
+      console.log(this.$root.store.username)
+      console.log(this.$route.params.recipeId)
+      try {
+          const response = await this.axios.post(
+            url,
+            {
+              user_name: this.$root.store.username,
+              recipe_id: this.$route.params.recipeId
+            }
+          );
+      }
+      catch (error) {
+        console.log(error);
+      }
+    }
+    catch (error) {
+        console.log(error);
+      }
     }
   }
 };
@@ -119,7 +155,16 @@ export default {
   margin-right: auto;
   width: 50%;
 }
-/* .recipe-header{
-
-} */
+.col {
+  width: 33.3%;
+  float: left;
+  text-align: center;
+}
+h1#recipeTitle {
+    text-align: center;
+}
+#recipesMarkings {
+  display: flex;
+  align-items: center;
+}
 </style>

@@ -1,7 +1,7 @@
 <template>
   <b-container>
     <h3>
-      {{ title }}:
+      {{ title }}
       <slot></slot>
     </h3>
     <b-row>
@@ -35,9 +35,21 @@ export default {
   },
   mounted() {
         this.$root.$on("randomRecipes", () => {
-    this.updateRecipes();
+        this.updateRecipes();
         });
-    this.updateRecipes();
+
+        this.$root.$on("favorite", () => {
+        this.getFavorites();
+        });
+
+        this.$root.$on("private", () => {
+        this.getPrivate();
+        });
+
+        this.$root.$on("family", () => {
+        this.getFamily();
+        });
+
 
   },
 
@@ -56,8 +68,56 @@ export default {
       } catch (error) {
         console.log(error);
       }
-    }
+    },
+
+    async getFavorites(){
+      try {
+        const response = await this.axios.get(
+          this.$root.store.server_domain + "/users/favorites",
+        );
+
+        console.log(response.data);
+        const recipes = response.data;
+        this.recipes = [];
+        this.recipes.push(...recipes);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async getPrivate(){
+      try {
+        const response = await this.axios.get(
+          this.$root.store.server_domain + "/users/personal",
+        );
+
+        console.log(response.data);
+        const recipes = response.data;
+        this.recipes = [];
+        this.recipes.push(...recipes);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    async getFamily(){
+      try {
+        const response = await this.axios.get(
+          this.$root.store.server_domain + "/users/familyrecipes",
+        );
+
+        console.log(response.data);
+        const recipes = response.data;
+        this.recipes = [];
+        this.recipes.push(...recipes);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+
   }
+    
+  
 };
 </script>
 
