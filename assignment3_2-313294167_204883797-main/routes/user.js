@@ -70,7 +70,7 @@ router.get('/personal', async (req,res,next) => {
       var recipes=[]
       for(var i=0;i<results.length;i++){
         let new_recipe = {
-          id: results[i].id,
+          id: results[i].recipeID,
           title : results[i].title,
           readyInMinutes: results[i].readyInMinutes,
           image: results[i].image,
@@ -100,8 +100,9 @@ router.get('/personal', async (req,res,next) => {
 router.post('/personal', async (req,res,next) => {
   try
   {
+    console.log(req.body)
     const user_name = req.session.user_name;
-    await user_utils.addPersonalRecipes(req.body, user_name);
+    await user_utils.addPersonalRecipe(req.body, user_name);
     let new_recipe = {
       title : req.body.title,
       readyInMinutes: req.body.readyInMinutes,
@@ -111,7 +112,10 @@ router.post('/personal', async (req,res,next) => {
       glutenFree: req.body.glutenFree,
       popularity: 0,
       seen: true,
-      favorites: true
+      favorites: false,
+      servings: req.body.servings,
+      instructions: req.body.instructions,
+      ingredients: req.body.ingredients
     }
     res.status(200).send(new_recipe);
     } catch(error) {

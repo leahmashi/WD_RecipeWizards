@@ -66,11 +66,11 @@ async function getPersonalRecipes(user_name)
     return await DButils.execQuery(`SELECT * FROM personal_recipes WHERE user_name='${user_name}'`)
 }
 
-async function addPersonalRecipes(recipe,user_name){
-    await DButils.execQuery(`INSERT INTO personal_recipes(user_name, title, readyInMinutes, vegan, vegetarian, glutenFree, imageSrc) 
-        VALUES('${user_name}','${recipe.title}','${recipe.readyInMinutes}','${recipe.vegan}', '${recipe.vegetarian}', '${recipe.glutenFree}', '${recipe.image}')`);
+async function addPersonalRecipe(recipe,user_name){
+    await DButils.execQuery(`INSERT INTO personal_recipes(user_name, title, readyInMinutes, vegan, vegetarian, glutenFree, imageSrc, likes, servings) 
+        VALUES('${user_name}','${recipe.title}','${recipe.readyInMinutes}','${recipe.vegan}', '${recipe.vegetarian}', '${recipe.glutenFree}', '${recipe.image}', 
+            0, ${recipe.servings})`);
 }
-
 
 
 async function getFamilyRecipes(user_name){

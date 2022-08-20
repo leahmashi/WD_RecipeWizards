@@ -57,7 +57,7 @@
 export default {
   name: "RecipePreview",
   mounted() {
-    this.axios.get(this.recipe.image).then((i) => {
+    this.axios.get(this.recipe.image).then(() => {
       this.image_load = true;
     });
   },
@@ -65,7 +65,7 @@ export default {
     console.log(this.recipe);
     return {
       image_load: false,
-      // recipe_viewed: this.recipe.viewed,
+      // TODO: recipe_viewed: this.recipe.viewed,
     };
   },
   props: {

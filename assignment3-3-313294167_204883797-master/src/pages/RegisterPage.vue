@@ -198,8 +198,8 @@ export default {
         submitError: undefined
       },
       countries: [{ value: null, text: "", disabled: true }],
-      errors: [],
-      validated: false,
+      // errors: [],
+      // validated: false,
     };
   },
   validations: {

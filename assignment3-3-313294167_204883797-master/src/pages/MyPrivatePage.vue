@@ -2,10 +2,8 @@
   <div class="container" id="mainPage">
     <div class="column" id="left">
       <h1 class="title">Explore this recipes</h1>
-      <RecipePreviewList title="Private Recipes" class="PrivateRecipes center" />
-
+      <RecipePreviewList title="Private Recipes" class="PrivateRecipes center"/>
     </div>
-
   </div>
 </template>
 

@@ -58,11 +58,18 @@
 export default {
   data() {
     return {
-      recipe: null
+      recipe: null,
+      isPersonal: false,
+      recipeId: 0,
     };
   },
-  async created() {
+  async created() { //when recipe view page created 
     try {
+      await this.checkIfPersonal(this.$route.params.recipeId, this.$root.store.username)
+      if (this.isPersonal == true)
+      {
+        return;
+      }
       let response;
 
       try {
@@ -71,7 +78,8 @@ export default {
         );
 
         if (response.status !== 200) this.$router.replace("/NotFound");
-      } catch (error) {
+      } 
+      catch (error) {
         console.log("error.response.status", error.response.status);
         this.$router.replace("/NotFound");
         return;
@@ -96,6 +104,7 @@ export default {
       console.log(response.data)
 
       let _recipe = {
+        id,
         vegan,
         vegetarian,
         glutenFree,
@@ -111,6 +120,7 @@ export default {
       };
 
       this.recipe = _recipe;
+      this.recipeId = _recipe.id;
 
     } catch (error) {
       console.log(error);
@@ -118,8 +128,7 @@ export default {
   },
   methods:{ 
     async addToFavorites() {
-      try{
-      const url=this.$root.store.server_domain + "/users/favorites"
+      const url = this.$root.store.server_domain + "/users/favorites"
       console.log(this.$root.store.username)
       console.log(this.$route.params.recipeId)
       try {
@@ -134,11 +143,26 @@ export default {
       catch (error) {
         console.log(error);
       }
-    }
-    catch (error) {
+    },
+    async checkIfPersonal(recipe_id) {
+      const url = this.$root.store.server_domain + "/users/personal"
+      console.log(recipe_id)
+      try {
+        const response = await this.axios.get(url);
+        for (const recipe of response.data)
+        {
+          console.log("recipe", recipe);
+          if (recipe.id == recipe_id)
+          {
+            this.isPersonal = true;
+            this.recipe = recipe;
+          }
+        }
+      }
+      catch (error) {
         console.log(error);
       }
-    }
+    },
   }
 };
 </script>

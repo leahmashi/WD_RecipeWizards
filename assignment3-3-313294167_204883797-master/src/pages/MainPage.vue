@@ -2,7 +2,7 @@
   <div class="container" id="mainPage">
     <div class="column" id="left">
       <h1 class="title">Explore this recipes</h1>
-      <!-- <RecipePreviewList title="Random Recipes" class="RandomRecipes"/> -->
+      <RecipePreviewList title="Random Recipes" class="RandomRecipes"/>
       <button v-on:click="getRandom">Accio 3 new recipes</button>
     </div>
     <div class="column" id="right">
