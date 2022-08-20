@@ -15,24 +15,24 @@
                 </label>
                 <select id="measurement00" name="measurement_id" class="css-fv9yoq" v-model="measurement00">
                 <option hidden="" disabled=""></option><option value="10"> (none)</option>
-                <option value="3">cup</option>
-                <option value="21">teaspoon</option>
-                <option value="20">tablespoon</option>
-                <option value="1">bunch</option>
-                <option value="4">dash</option>
-                <option value="5">drop</option>
-                <option value="6">gallon</option>
-                <option value="23">gram</option>
-                <option value="7">handful</option>
-                <option value="8">liter</option>
-                <option value="9">milliliter</option>
-                <option value="11">ounce</option>
-                <option value="12">packet</option>
-                <option value="14">pinch</option>
-                <option value="22">pint</option>
-                <option value="15">pound</option>
-                <option value="16">quart</option>
-                <option value="18">splash</option>
+                <option value="cup">cup</option>
+                <option value="teaspoon">teaspoon</option>
+                <option value="tablespoon">tablespoon</option>
+                <option value="bunch">bunch</option>
+                <option value="dash">dash</option>
+                <option value="drop">drop</option>
+                <option value="gallon">gallon</option>
+                <option value="gram">gram</option>
+                <option value="handful">handful</option>
+                <option value="liter">liter</option>
+                <option value="milliliter">milliliter</option>
+                <option value="ounce">ounce</option>
+                <option value="packet">packet</option>
+                <option value="pinch">pinch</option>
+                <option value="pint">pint</option>
+                <option value="pound">pound</option>
+                <option value="quart">quart</option>
+                <option value="splash">splash</option>
                 </select>
             </div>
         </div>
@@ -53,7 +53,7 @@ export default {
     name: "IngredientField",
     data() {
         return {
-            qty00: 0,
+            qty00: 0, //FIXME: check why qty not decimal
             measurement00: "",
             item00: "",
         }

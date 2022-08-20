@@ -20,8 +20,6 @@ export default {
     },
     methods: {
         getBody() {
-            console.log('number', this.stepCount)
-            console.log('step', this.body00)
             return {
                 "number": this.stepCount,
                 "step": this.body00,

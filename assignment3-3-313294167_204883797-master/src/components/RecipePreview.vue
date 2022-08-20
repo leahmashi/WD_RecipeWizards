@@ -23,8 +23,12 @@
         {{ recipe.aggregateLikes }} likes &#128077;
       </b-card-text>
       </b-card>
+      
     </div>
   </router-link>
+      <div>      
+      <button v-on:click="addToFavorites">Click here to add the recipe to your favorite recipes</button>
+    </div>
   <!-- <router-link 
     :to="{ name: 'recipe', params: { recipeId: recipe.id } }"
     class="recipe-preview"
@@ -62,7 +66,6 @@ export default {
     });
   },
   data() {
-    console.log(this.recipe);
     return {
       image_load: false,
       // TODO: recipe_viewed: this.recipe.viewed,
@@ -73,7 +76,26 @@ export default {
       type: Object,
       required: true
     }
-  }
+  },
+   methods:{ 
+      async addToFavorites() {
+        const url = this.$root.store.server_domain + "/users/favorites"
+        try {
+            const response = await this.axios.post(
+              url,
+              {
+                user_name: this.$root.store.username,
+                recipe_id: this.recipe.id
+              }
+            );
+        }
+        catch (error) {
+          console.log(error);
+        }
+      }
+   }
+
+
 };
 </script>
 

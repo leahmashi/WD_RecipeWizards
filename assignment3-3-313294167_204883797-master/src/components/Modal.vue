@@ -177,7 +177,7 @@ export default {
               vegan: this.form.vegan,
               vegetarian: this.form.vegetarian,
               glutenFree: this.form.glutenFree,
-              steps: this.form.steps,
+              instructions: this.form.steps,
               ingredients: this.form.ingredients,
               servings: this.form.servings
             }
@@ -203,13 +203,12 @@ export default {
         for (const step of this.$refs.instructionFields)
         {
           let body = step.getBody();
-          this.form.steps.push({ body })
+          this.form.steps.push(body)
         }
       },
       updateIngredients() {
         for (const ingredient of this.$refs.ingredientFields) {
           let body = ingredient.getBody();
-          console.log(body)
           this.form.ingredients.push(body);
         }
       }
