@@ -124,7 +124,6 @@ export default {
     max-height: 92vh;
     min-height: 92vh;
     margin: 0 auto;
-    padding-top: 2rem;
 }
 
 #user {

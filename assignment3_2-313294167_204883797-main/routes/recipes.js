@@ -1,7 +1,6 @@
 var express = require("express");
 var router = express.Router();
 const recipes_utils = require("./utils/recipes_utils");
-const user_utils = require("./utils/user_utils");
 
 
 // router.get("/", (req, res) => res.send("im here"));
@@ -181,21 +180,11 @@ router.get("/:recipeId", async (req, res, next) => {
 });
 
 
-router.get('/search/food/:query', async (req,res,next) => {
+router.post('/search', async (req,res,next) => {
   try{
-    const search= await user_utils.getRecipeInformationQueryIngredients(req.params.query);
+    const search= await recipes_utils.getInfoByQuery(req.body.search, req.body.numberOfSearch,
+        req.body.cuisine, req.body.diet, req.body.intolerance);
     console.log(search)
-    res.status(200).send(search.data);
-  } catch(error){
-    next(error); 
-  }
-});
-
-router.get('/search/recipe/:query', async (req,res,next) => {
-  try{
-    const search= await user_utils.getRecipeInformationQuery(req.params.query) ;
-    console.log(search)
-
     res.status(200).send(search.data);
   } catch(error){
     next(error); 

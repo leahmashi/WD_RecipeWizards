@@ -4,27 +4,6 @@ const axios = require("axios");
 
 
 
-async function getRecipeInformationQuery(query) 
-{
- return await axios.get(`${api_domain}/complexSearch?query=${query}`, {
-     params: {
-         includeNutrition: false,
-         apiKey: process.env.spooncular_apiKey
-     }
- });
-}
-
-async function getRecipeInformationQueryIngredients(query) 
-{
- return await axios.get(`${api_domain}/findByIngredients?ingredients=${query}`, {
-     params: {
-         includeNutrition: false,
-         apiKey: process.env.spooncular_apiKey
-     }
- });
-}
-
-
 async function markAsFavorite(user_name, recipe_id){
     await DButils.execQuery(`INSERT INTO favorite_recipes(user_name, webRecipeID) VALUES ('${user_name}',${recipe_id})`);
 }
@@ -60,9 +39,13 @@ async function markAsLastViewed(user_name, recipe_id){
     await DButils.execQuery(`UPDATE users SET lastViewedIndexToChange='${idxToChange}' WHERE user_name='${user_name}'`);
 }
 
-async function getPersonalRecipes(user_name)
+async function getPersonalRecipe(user_name, id)
 {
-    return await DButils.execQuery(`SELECT * FROM personal_recipes WHERE user_name='${user_name}'`)
+    return await DButils.execQuery(`SELECT * FROM personal_recipes WHERE user_name='${user_name}' and recipeID='${id}'`)
+}
+
+async function getPersonalRecipes(user_name) {
+    return await DButils.execQuery(`SELECT * FROM personal_recipes WHERE user_name='${user_name}'`);
 }
 
 async function addPersonalRecipe(recipe, user_name){
@@ -79,9 +62,6 @@ async function addPersonalRecipe(recipe, user_name){
 async function addSteps(steps, recipeID) {
     let results;
     for (const step of steps) {
-        console.log("step", step)
-        console.log("step.number", step.number)
-        console.log("step.step", step.step)
         try {
             await DButils.execQuery(`INSERT INTO webdb.steps(stepID, recipeID, stepDesc) VALUES('${step.number}', '${recipeID}', '${step.step}');`);
         }
@@ -121,7 +101,7 @@ async function addIngredients(ingredients, recipeID) {
 }
 
 async function getFamilyRecipes(user_name){
-    const recipes_id = await DButils.execQuery(`SELECT recipe_id FROM family_recipe WHERE user_name='${user_name}'`);
+    const recipes_id = await DButils.execQuery(`SELECT * FROM family_recipes WHERE user_name='${user_name}'`);
     return recipes_id;
 }
 
@@ -135,8 +115,7 @@ exports.markAsFavorite = markAsFavorite;
 exports.getFavoriteRecipes = getFavoriteRecipes;
 exports.getThreeLastViewed = getThreeLastViewed;
 exports.markAsLastViewed = markAsLastViewed;
-exports.getRecipeInformationQueryIngredients = getRecipeInformationQueryIngredients;
-exports.getRecipeInformationQuery = getRecipeInformationQuery;
 exports.getPersonalRecipes = getPersonalRecipes;
+exports.getPersonalRecipe = getPersonalRecipe;
 exports.addPersonalRecipe = addPersonalRecipe;
 exports.getFamilyRecipes = getFamilyRecipes;

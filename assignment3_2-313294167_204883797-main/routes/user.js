@@ -73,6 +73,41 @@ router.get('/personal', async (req,res,next) => {
           id: results[i].recipeID,
           title : results[i].title,
           readyInMinutes: results[i].readyInMinutes,
+          image: results[i].imageSrc,
+          vegan: results[i].vegan,
+          vegetarian: results[i].vegetarian,
+          glutenFree: results[i].glutenFree,
+          seen: true,
+          favorites: true
+        }
+        recipes.push(new_recipe)
+      }
+      if(recipes.length>0){
+        res.status(200).send(recipes);
+    }
+    else{
+      res.status(204).send("There are no personal recipes");
+    }
+  } catch(error) {
+      next(error); 
+  }
+})
+
+/**
+* returns personal recipe by id
+*/
+router.get('/personal/:recipeId', async (req,res,next) => {
+  try
+  {
+      const user_name = req.session.user_name;
+      const results = await user_utils.getPersonalRecipe(user_name, req.params.recipeId);
+      console.log(results)
+      var recipes = []
+      for(var i=0;i<results.length;i++){
+        let new_recipe = {
+          id: results[i].recipeID,
+          title : results[i].title,
+          readyInMinutes: results[i].readyInMinutes,
           image: results[i].image,
           vegan: results[i].vegan,
           vegetarian: results[i].vegetarian,
@@ -131,11 +166,22 @@ router.get('/familyrecipes', async (req,res,next) => {
   try
   {
     const user_name = req.session.user_name;
-    const recipes_id = await user_utils.getFamilyRecipes(user_name);
-    let recipes_id_array = [];
-    recipes_id.map((element) => recipes_id_array.push(element.recipe_id)); //extracting the recipe ids into array
-    const results = await recipe_utils.getRecipesPreview(user_name, recipes_id_array);
-    res.status(200).send(results);
+    const results = await user_utils.getFamilyRecipes(user_name);
+    var recipes=[]
+    for(var i=0;i<results.length;i++){
+      let new_recipe = {
+        id : results[i].recipe_id,
+        title : results[i].title,
+        readyInMinutes: results[i].readyInMinutes,
+        image: results[i].imageSrc,
+        likes:0,
+
+      }
+      recipes.push(new_recipe)
+    }
+    if(recipes.length>0){
+      res.status(200).send(recipes);
+  }
   } catch(error) {
     next(error); 
   }

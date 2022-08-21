@@ -105,7 +105,7 @@ export default {
           this.$root.store.server_domain + "/users/familyrecipes",
         );
 
-        console.log(response.data);
+        console.log(response);
         const recipes = response.data;
         this.recipes = [];
         this.recipes.push(...recipes);

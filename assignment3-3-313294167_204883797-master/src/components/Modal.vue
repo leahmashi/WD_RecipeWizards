@@ -129,6 +129,8 @@ export default {
         image: { 
           isValid() {
             if (this.file == null) {
+              this.form.image="https://spoonacular.com/recipeImages/defualt-556x370.jpg"
+              console.log(this.form.image)
               return true;
             }
             else {
@@ -168,6 +170,7 @@ export default {
         this.updateSteps();
         this.updateIngredients();
         try {
+          console.log(this.form.image)
           const response = await this.axios.post(
             this.$root.store.server_domain + "/users/personal",
             {

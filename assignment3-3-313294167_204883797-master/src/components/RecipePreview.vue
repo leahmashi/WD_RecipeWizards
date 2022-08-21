@@ -9,7 +9,7 @@
     class="recipe-preview" v-if="recipe_viewed" style="color: purple"
   > -->
     <div>
-      <b-card
+      <b-card 
         v-bind:title= "recipe.title"
         v-bind:img-src= "recipe.image"
         img-alt="Image"
@@ -26,7 +26,10 @@
       
     </div>
   </router-link>
-      <div>      
+      <div> 
+      <!-- <v-btn v-on:click="addToFavorites" class="mx-2" fab dark small color="pink">
+        <v-icon dark> mdi-heart</v-icon>
+      </v-btn>      -->
       <button v-on:click="addToFavorites">Click here to add the recipe to your favorite recipes</button>
     </div>
   <!-- <router-link 
@@ -61,6 +64,7 @@
 export default {
   name: "RecipePreview",
   mounted() {
+    
     this.axios.get(this.recipe.image).then(() => {
       this.image_load = true;
     });
