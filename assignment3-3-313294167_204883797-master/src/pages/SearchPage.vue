@@ -3,7 +3,7 @@
     <h1 id="title" style="text-align: center;">Search</h1>
 
     <div id="leftCol">
-      <b-button v-b-toggle.collapse-1 variant="primary">Filter</b-button>
+      <b-button id="filter" v-b-toggle.collapse-1 variant="primary">Filter</b-button>
       <b-collapse id="collapse-1" class="mt-2">
         <b-card>
           <b-button v-b-toggle.collapse-1-inner size="sm">Cuisines</b-button>
@@ -73,9 +73,11 @@
 
     </div>
 
-
-      <li v-for="r in this.$root.store.lastSearched" :key="r.id">
-        <RecipePreview class="recipePreview" :recipe="r" />
+    <div id="right-bottom">
+      <div v-for="r in recipes" :key="r.id">
+        <RecipePreview class="recipePreview" :recipe="r">
+      </div>
+    </div>
       <b-alert
         class="mt-2"
         v-if="form.submitError"
@@ -111,14 +113,14 @@ export default {
     return {
       form: {
         search: "",
-        numberOfSearch: "5",
+        numberOfSearch: 5,
         searchBy: "",
         submitError: undefined
       },
       numberOfSearch: [
-          { value: "5", text: '5' },
-          { value: "10", text: '10' },
-          { value: "15", text: '15' }
+          { value: 5, text: '5' },
+          { value: 10, text: '10' },
+          { value: 15, text: '15' }
         ],
       searchBy: [
           { value: "foodType", text: 'food type' },
@@ -172,14 +174,17 @@ export default {
       return $dirty ? !$error : null;
     },
     async Search() {
+      let collapseButton = document.getElementById("collapse-1");
+      collapseButton.setAttribute('style', 'display:none;');
+      let filter = document.getElementById("filter");
+      filter.setAttribute('aria-expanded', 'false');
       let cuisineParam = this.cuisines.join(",");
       let dietParam = this.diets.join(",");
       let intoleranceParam = this.intolerances.join(",");
 
       try {
         const url = this.$root.store.server_domain + "/recipes/search";
-        console.log(url)
-        const response = await this.axios.get(url,
+        const response = await this.axios.post(url,
         {  
           numberOfSearch: this.form.numberOfSearch,
           search: this.form.search,
@@ -193,29 +198,7 @@ export default {
         this.recipes.push(...recipes);
         console.log(this.recipes);
         this.$root.store.lastSearched = this.recipes;
-
-      //   if (this.form.searchBy=='foodType') {
-      //     var filter='food';
-      //     const url= this.$root.store.server_domain + "/recipes/search/" + filter + "/" + this.form.search;
-      //     const response = await this.axios.get(url);
-      //     const recipes = response.data;
-      //     this.recipes = [];
-      //     this.recipes.push(...recipes);
-      //     this.recipes=this.recipes.slice(0,this.form.numberOfSearch)
-      //     console.log(this.recipes)
-      //     this.$root.store.lastSearched = this.recipes
-      //   }
-      //   else {
-      //     var filter='recipe';
-      //     const url=this.$root.store.server_domain + "/recipes/search/" + filter + "/" + this.form.search;
-      //     const response = await this.axios.get(url);
-      //     const recipes = response.data.results;
-      //     this.recipes = [];
-      //     this.recipes.push(...recipes);
-      //     this.recipes = this.recipes.slice(0,this.form.numberOfSearch)
-      //     console.log(this.recipes)
-      //     this.$root.store.lastSearched = this.recipes
-      //   }
+        this.onReset();
         
       } catch (err) {
         console.log(err.response);
@@ -236,6 +219,10 @@ export default {
         numberOfSearch: "5",
         searchBy: "",
       };
+      this.cuisines = [];
+      this.diets = [];
+      this.intolerances = [];
+      //TODO: add uncheck function
       this.$nextTick(() => {
         this.$v.$reset();
       });
@@ -284,10 +271,19 @@ export default {
     padding-top: 5%;
 }
 
+#right-bottom {
+  display: grid;
+  margin-top: 30%;
+  grid-template-columns: 200px 200px 200px 200px 200px;
+  padding-left: 8%;
+  max-height: 40vh !important;
+  overflow-y: auto;
+}
+
 .card-body {
     flex: 1 1 auto;
     min-height: 1px;
-    padding: 1rem;
+    padding: 0.25rem;;
 }
 
 div#collapse-1 {
@@ -300,7 +296,12 @@ div#collapse-1 {
     color: #fff;
     background-color: #28a745;
     border-color: #28a745;
-    /* font-weight: 500; */
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active {
+    color: #fff;
+    background-color: green;
+    border-color: green;
 }
 
 input#search, select {
@@ -324,5 +325,21 @@ input#search, select {
 
 label {
     font-weight: 600;
+    padding-left: 5%;
+    display: inline-block;
+    margin-bottom: .5rem;
+}
+
+.btn-group-sm>.btn, .btn-sm {
+    margin: 0 auto;
+    width: -webkit-fill-available;
+    font-size: .875rem;
+    line-height: 1.5;
+    border-radius: .2rem;
+}
+
+input[type=checkbox], input[type=radio] {
+    box-sizing: border-box;
+    margin-left: 10%;
 }
 </style>

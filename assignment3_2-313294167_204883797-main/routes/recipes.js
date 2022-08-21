@@ -18,10 +18,11 @@ const recipes_utils = require("./utils/recipes_utils");
   }
 })
 
-router.get('/search', async (req,res,next) => {
+router.post("/search", async (req,res,next) => {
   try{
-    const search= await recipes_utils.getInfoByQuery(req.query.search, req.query.numberOfSearch,
-        req.query.cuisine, req.query.diet, req.query.intolerance);
+    console.log("in search", req.body.numberOfSearch)
+    const search= await recipes_utils.getInfoByQuery(req.body.search, req.body.numberOfSearch,
+        req.body.cuisine, req.body.diet, req.body.intolerance);
     console.log(search)
     res.status(200).send(search.data);
   } catch(error){
