@@ -247,10 +247,10 @@ async function getRecipeInformationQueryIngredients(query)
 
 async function getInfoByQuery(search, number, cuisine, diet, intolerance) {
     let query = '';
-    if (search != '') query = `${search}`;
-    if (cuisine != '') query += `"&cuisine=${cuisine}`;
-    if (diet != '') query += `"&diet=${diet}`;
-    if (intolerance != '') query += `"&intolerance=${intolerance}`;
+    if (search) query = `${search}`;
+    if (cuisine) query += `"&cuisine=${cuisine}`;
+    if (diet) query += `"&diet=${diet}`;
+    if (intolerance) query += `"&intolerance=${intolerance}`;
     if(number) query+= `&number=${number}`;
     console.log(query)
     return await axios.get(`${api_domain}/complexSearch?query=${query}`, {

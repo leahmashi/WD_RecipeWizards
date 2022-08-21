@@ -175,16 +175,11 @@ export default {
       let cuisineParam = this.cuisines.join(",");
       let dietParam = this.diets.join(",");
       let intoleranceParam = this.intolerances.join(",");
-      console.log(this.form.numberOfSearch)
-      console.log(this.form.search)
-      console.log(cuisineParam)
-      console.log(dietParam)
-      console.log(intoleranceParam)
 
       try {
         const url = this.$root.store.server_domain + "/recipes/search";
         console.log(url)
-        const response = await this.axios.post(url,
+        const response = await this.axios.get(url,
         {  
           numberOfSearch: this.form.numberOfSearch,
           search: this.form.search,
