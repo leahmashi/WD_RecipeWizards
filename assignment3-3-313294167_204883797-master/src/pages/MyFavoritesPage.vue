@@ -1,12 +1,8 @@
 <template>
   <div class="container" id="mainPage">
-    <div class="column" id="left">
-      <h1 class="title">Explore this recipes</h1>
+      <h1 class="title">My favorite recipes</h1>
       <RecipePreviewList title="Favorite Recipes" class="FavoriteRecipes center" />
-
     </div>
-
-  </div>
 </template>
 
 <script>
@@ -29,3 +25,17 @@ export default {
 };
 
 </script>
+
+<style>
+h1 {
+  padding-top: 5%;
+}
+
+.FavoriteRecipes.center.container {
+    display: grid;
+    grid-template-columns: max-content;
+    overflow-x: auto;
+    overflow-y: auto;
+    height: 70vh !important;
+}
+</style>

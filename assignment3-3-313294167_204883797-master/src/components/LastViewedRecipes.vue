@@ -1,9 +1,9 @@
 <template>
   <b-container>
-    <h3>
+    <h1>
       {{ title }}
       <slot></slot>
-    </h3>
+    </h1>
     <b-row id="recipesPreview">
       <b-col class="recipeView" v-for="r in recipes" :key="r.id">
         <RecipePreview class="recipePreview" :recipe="r" />
@@ -74,7 +74,8 @@ export default {
   max-width: 100%;
   padding: 0;
 }
-h3 {
-  font-size: 2.5rem;
+h1 {
+    font-size: 2.5rem;
+    padding-top: 5%;
 }
 </style>

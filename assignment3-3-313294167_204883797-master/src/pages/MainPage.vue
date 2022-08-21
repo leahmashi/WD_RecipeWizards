@@ -78,4 +78,17 @@ export default {
   float: right;
 }
 
+h1 {
+    font-size: 2.5rem;
+    padding-top: 5%;
+}
+
+#mainPage {
+    background-image: url("../assets/main-background.png");
+    min-width: 100vw !important;
+    height: 93vh;
+    margin: 0 auto;
+    background-size: cover;
+    color: white;
+}
 </style>

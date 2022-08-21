@@ -23,15 +23,9 @@
         {{ recipe.aggregateLikes }} likes &#128077;
       </b-card-text>
       </b-card>
-      
     </div>
   </router-link>
-      <div> 
-      <!-- <v-btn v-on:click="addToFavorites" class="mx-2" fab dark small color="pink">
-        <v-icon dark> mdi-heart</v-icon>
-      </v-btn>      -->
-      <button v-on:click="addToFavorites">Click here to add the recipe to your favorite recipes</button>
-    </div>
+  <button v-on:click="addToFavorites">❤</button>
   <!-- <router-link 
     :to="{ name: 'recipe', params: { recipeId: recipe.id } }"
     class="recipe-preview"
@@ -183,6 +177,12 @@ export default {
 .card-title {
     margin-bottom: .75rem;
     font-size: 1rem;
+}
+
+.card-body {
+    flex: 1 1 auto;
+    min-height: 1px;
+    padding: 0.5rem;
 }
 
 </style>
