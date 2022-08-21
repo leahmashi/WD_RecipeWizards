@@ -74,7 +74,7 @@
     </div>
 
     <div id="right-bottom">
-      <div v-for="r in recipes" :key="r.id">
+      <div v-for="r in this.$root.store.lastSearched" :key="r.id">
         <RecipePreview class="recipePreview" :recipe="r">
       </div>
     </div>

@@ -94,7 +94,7 @@ export default {
   height: 5vh;
 }
 
-#nav a:not(#registerLink, #loginLink) {
+#nav a:not(#registerLink, #loginLink, #favoritesLink, #privateLink, #familyLink) {
   font-weight: bold;
   color: white;
   padding-right: 10px;
