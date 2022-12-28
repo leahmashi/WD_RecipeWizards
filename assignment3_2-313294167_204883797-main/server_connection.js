@@ -74,7 +74,7 @@ function onError(error) {
 /**
  * Event listener for HTTP server "listening" event.
  */
-server.address("https://recipewizards.up.railway.app");
+server.address("https://recipewizards.up.railway.app/");
 // server.address("https://recipeWizard.cs.bgu.ac.il");
 function onListening() {
   var addr = server.address();
