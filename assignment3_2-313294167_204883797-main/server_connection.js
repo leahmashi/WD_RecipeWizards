@@ -18,7 +18,7 @@ app.set('port', port);
 /**
  * Create HTTP server.
  */
-var server = https.createServer(httpsOptions, app).listen(process.env.PORT);
+var server = https.createServer(httpsOptions, app)
 
 /**
  * Listen on provided port, on all network interfaces.
