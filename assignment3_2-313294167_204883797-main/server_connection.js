@@ -23,7 +23,7 @@ var server = https.createServer(httpsOptions, app)
 /**
  * Listen on provided port, on all network interfaces.
  */
-server.listen(port, "https://recipewizards.up.railway.app");
+server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
 
