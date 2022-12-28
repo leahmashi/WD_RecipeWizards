@@ -18,7 +18,7 @@ app.set('port', port);
 /**
  * Create HTTP server.
  */
-var server = https.createServer(httpsOptions, app);
+var server = https.createServer(httpsOptions, app).listen(process.env.PORT);
 
 /**
  * Listen on provided port, on all network interfaces.
@@ -74,7 +74,7 @@ function onError(error) {
 /**
  * Event listener for HTTP server "listening" event.
  */
-server.address("https://recipewizards.up.railway.app:3000");
+server.address("https://recipewizards.up.railway.app");
 // server.address("https://recipeWizard.cs.bgu.ac.il");
 function onListening() {
   var addr = server.address();
