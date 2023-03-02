@@ -7,7 +7,7 @@ connectionLimit:4,
   host: process.env.host,//"localhost"
   user: process.env.user,//"root"
   password: process.env.DBpwd,
-  database:"webdb"
+  database: process.env.database
 }
 const pool = new mysql.createPool(config);
 
