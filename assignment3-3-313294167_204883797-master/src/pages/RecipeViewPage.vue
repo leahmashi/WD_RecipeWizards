@@ -1,56 +1,55 @@
 <template>
-  <div class="container"> 
-    <div v-if="recipe">
-      <div class="recipe-header mt-3 mb-4">
-        <h1 id="recipeTitle">{{ recipe.title }}</h1>
-        <img :src="recipe.image" class="center" />
-        <div id=recipesMarkings>
-          <div class="col" v-if="recipe.vegan == true">
-            <img src="../assets/veganIcon.jpg" width="15%" height="15%" />
-          </div>
-          <div class="col" v-if="recipe.vegetarian == true">
-            <img src="../assets/vegetarianIcon.png" width="15%" height="15%" />
-          </div>
-          <div class="col" v-if="recipe.glutenFree == true">
-            <img src="../assets/glutenFreeIcon.jpg" width="15%" height="15%" />
-          </div>
-          <div class="col" v-if="recipe.seen == true">
-            <img src="../assets/seenIcon.png" width="15%" height="15%" />
-          </div>
-        </div>
+  <div> 
+    <b-card 
+      v-bind:img-src= "recipe.image" 
+      img-alt="https://spoonacular.com/recipeImages/defualt-556x370.jpg"
+      img-top
+      tag="article"
+    >
+    <b-card-title class="text-center">{{recipe.title}}</b-card-title>
+    <b-card-text>
+      <div id=recipesMarkings class="text-center">
+        <b-row align-h="center">
+          <b-col cols="1" v-if="recipe.vegan === true"><img src="../assets/veganIcon.jpg" style="max-width: 15vw; max-height: 5vh;"/></b-col>
+          <b-col cols="1" v-if="recipe.vegetarian === true"><img src="../assets/vegetarianIcon.png" style="max-width: 15vw; max-height: 5vh;"/></b-col>
+          <b-col cols="1" v-if="recipe.glutenFree === true"><img src="../assets/glutenFreeIcon.jpg" style="max-width: 15vw; max-height: 5vh;"/></b-col>
+          <b-col cols="1" v-if="recipe.seen === true"><img src="../assets/seenIcon.png" style="max-width: 15vw; max-height: 5vh;"/></b-col>
+        </b-row>
       </div>
-      <div class="recipe-body">
-        <div>
-          <div class="wrapper">
-            <div class="wrapped">
-              <div class="mb-3">
-                <div>Ready in {{ recipe.readyInMinutes }} minutes</div>
-                <div>Likes: {{ recipe.aggregateLikes }} likes</div>
-                <div>serves: {{ recipe.servings }}</div>
-              </div>
-              Ingredients:
-              <ul>
-                <li
-                  v-for="(ingredient, index) in recipe.ingredients"
-                  :key="index + '_' + ingredient.id"
-                >
+      <br>
+      <b-container class="recipe-body">
+        <b-col align-v="start">
+          <b-row>Time: {{ recipe.readyInMinutes }} minutes</b-row>
+          <b-row>Likes: {{ recipe.aggregateLikes }}</b-row>
+          <b-row>serves: {{ recipe.servings }}</b-row>
+        </b-col>
+        <br>
+        <b-row>
+          <b-col> Ingredients:
+            <ul>
+              <li v-for="(ingredient, index) in recipe.ingredients"
+                  :key="index + '_' + ingredient.id" 
+              >
                   {{ ingredient[2] + " " + ingredient[1] + " " + ingredient[0] }}
-                </li>
-              </ul>
-            </div>
-            <div class="wrapped">
-              Instructions:
-              <ol>
-                <li v-for="step in recipe.steps" :key="step.number">
+              </li>
+            </ul>
+          </b-col>
+          <b-col> Instructions:
+            <ol>
+              <li v-for="step in recipe.steps" :key="step.number">
                   {{ step }}
-                </li>
-              </ol>
-            </div>
-          </div>
-          <button v-on:click="addToFavorites">Click here to add the recipe to your favorite recipes</button>
-        </div>
-      </div>
+              </li>
+            </ol>
+          </b-col>
+        </b-row>
+        
+      </b-container>
+    </b-card-text>
+    <div class="text-center">
+      <button v-on:click="addToFavorites">❤ Add to favorites</button>
     </div>
+    </b-card>
+
   </div>
 </template>
 
@@ -63,10 +62,10 @@ export default {
       recipeId: 0,
     };
   },
-  async created() { //when recipe view page created 
+  async mounted() { //when recipe view page created 
     try {
       await this.checkIfPersonal(this.$route.params.recipeId, this.$root.store.username)
-      if (this.isPersonal == true)
+      if (this.isPersonal === true)
       {
         return;
       }
@@ -80,7 +79,7 @@ export default {
         if (response.status !== 200) this.$router.replace("/NotFound");
       } 
       catch (error) {
-        console.log("error.response.status", error.response.status);
+        console.log("error.response.status:", error.response.status);
         this.$router.replace("/NotFound");
         return;
       }
@@ -139,6 +138,7 @@ export default {
               recipe_id: this.$route.params.recipeId
             }
           );
+          console.log(response);
       }
       catch (error) {
         console.log(error);
@@ -163,33 +163,28 @@ export default {
         console.log(error);
       }
     },
-  }
+  },
 };
 </script>
 
 <style scoped>
-.wrapper {
-  display: flex;
+
+.card-img-top {
+    max-height: 20vh;
+    object-fit: contain;
+    padding-top: 2rem;
 }
-.wrapped {
-  width: 50%;
+
+.card {
+  margin-left: 2vw;
+  margin-right: 2vw;
+  position: inherit;
 }
-.center {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 50%;
+
+button {
+  margin-bottom: 2rem;
 }
-.col {
-  width: 33.3%;
-  float: left;
-  text-align: center;
-}
-h1#recipeTitle {
-    text-align: center;
-}
-#recipesMarkings {
-  display: flex;
-  align-items: center;
-}
+
+
+
 </style>

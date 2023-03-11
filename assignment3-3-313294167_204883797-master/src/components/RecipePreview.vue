@@ -1,35 +1,38 @@
 <template>
-<div>
+<div id="card">
   <router-link
     :to="{ name: 'recipe', params: { recipeId: recipe.id } }"
     class="recipe-preview" 
   >
-   <!-- <ruter-link
+
+  <!-- <ruter-link
     :to="{ name: 'recipe', params: { recipeId: recipe.id } }"
     class="recipe-preview" v-if="recipe_viewed" style="color: purple"
   > -->
+
     <div>
       <b-card 
         v-bind:title= "recipe.title"
         v-bind:img-src= "recipe.image"
-        img-alt="Image"
+        img-alt="https://spoonacular.com/recipeImages/defualt-556x370.jpg"
         img-top
         tag="article"
-        style="max-width: 20rem;"
-        class="mb-2"
+        style="max-width: 16rem; max-height: 20rem; min-width: 16rem; min-height: 20rem;"
       >
-      <b-card-text>
-        {{ recipe.readyInMinutes }} minutes &#9200; <br>
-        {{ recipe.aggregateLikes }} likes &#128077;
-      </b-card-text>
+        <b-card-text>
+          {{ recipe.readyInMinutes }} minutes &#9200; <br>
+          {{ recipe.aggregateLikes }} likes &#128077;
+        </b-card-text>
       </b-card>
     </div>
   </router-link>
-  <button v-on:click="addToFavorites">❤</button>
+  <button v-on:click="addToFavorites">❤ Add to favorites</button>
+
   <!-- <router-link 
     :to="{ name: 'recipe', params: { recipeId: recipe.id } }"
     class="recipe-preview"
   >
+
   <! <router-link 
     :to="{ name: 'recipe', params: { recipeId: recipe.id } }"
     class="recipe-preview" v-else style="color: blue"
@@ -51,6 +54,7 @@
       </b-card>
     </div>
   </router-link>  -->
+
 </div>
 </template>
 
@@ -86,6 +90,7 @@ export default {
                 recipe_id: this.recipe.id
               }
             );
+            console.log(response);
         }
         catch (error) {
           console.log(error);
@@ -183,6 +188,13 @@ export default {
     flex: 1 1 auto;
     min-height: 1px;
     padding: 0.5rem;
+}
+
+#card {
+  max-width: 16rem; 
+  max-height: 20rem; 
+  min-width: 16rem; 
+  min-height: 20rem;
 }
 
 </style>

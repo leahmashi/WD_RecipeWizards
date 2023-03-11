@@ -1,11 +1,12 @@
 <template>
   <b-container>
     <h1>
-      {{ title }}
-      <slot></slot>
+      {{ title }}  
+      <slot></slot> 
     </h1>
     <b-row id="recipesPreview">
-      <b-col class="recipeView" v-for="r in recipes" :key="r.id">
+      <!-- <b-col class="recipeView" v-for="r in recipes" :key="r.id"> -->
+      <b-col v-for="r in recipes" :key="r.id">
         <RecipePreview class="recipePreview" :recipe="r" />
       </b-col>
     </b-row>

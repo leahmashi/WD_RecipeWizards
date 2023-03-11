@@ -1,18 +1,25 @@
 <template>
   <div class="container" id="mainPage">
     <div class="column" id="left">
-      <h1 class="title">Explore this recipes</h1>
+      <h1 class="title">Explore these recipes</h1>
       <RecipePreviewList title="Random Recipes" class="RandomRecipes"/>
+      <br><br>
       <button v-on:click="getRandom">Accio 3 new recipes</button>
     </div>
     <div class="column" id="right">
-      <router-link v-if="!$root.store.username" to="/login" tag="button">You need to Login to view this</router-link>
-      <div v-if="!$root.store.username"> <RecipePreviewList title="Last Viewed Recipes" :class="{
-        RandomRecipes: true,
-        blur: !$root.store.username,
-        center: true
-      }"
-      disabled></RecipePreviewList></div>
+      <div v-if="!$root.store.username">
+        <br><br>
+        <router-link to="/login" tag="button">You need to Login to view this</router-link>
+        <div> 
+          <RecipePreviewList title="Last Viewed Recipes" :class="{
+            RandomRecipes: true,
+            blur: !$root.store.username,
+            center: true
+            }"
+            disabled>
+          </RecipePreviewList>
+        </div>
+      </div>
       <div v-else><LastViewedRecipes title="Last Viewed Recipes" :class="{
         lastViewed: true,
         center: true

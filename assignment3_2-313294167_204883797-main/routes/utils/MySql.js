@@ -3,7 +3,7 @@ require("dotenv").config();
 
 
 const config={
-connectionLimit:4,
+  connectionLimit:4,
   host: process.env.host,//"localhost"
   user: process.env.user,//"root"
   password: process.env.DBpwd,

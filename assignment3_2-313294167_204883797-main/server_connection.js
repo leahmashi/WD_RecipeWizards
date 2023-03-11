@@ -11,7 +11,7 @@ var httpsOptions = {
 /**
  * Get port from environment and store in Express.
  */
-var port = normalizePort(process.env.PORT || '443');
+var port = normalizePort(process.env.PORT || '3000');
 
 app.set('port', port);
 
@@ -74,7 +74,8 @@ function onError(error) {
 /**
  * Event listener for HTTP server "listening" event.
  */
-server.address("https://recipewizards.up.railway.app");
+// server.address("https://recipewizards.up.railway.app");
+server.address("http://localhost:3000");
 // server.address("https://recipeWizard.cs.bgu.ac.il");
 function onListening() {
   var addr = server.address();

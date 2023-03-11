@@ -75,7 +75,7 @@
 
     <div id="right-bottom">
       <div v-for="r in this.$root.store.lastSearched" :key="r.id">
-        <RecipePreview class="recipePreview" :recipe="r">
+        <RecipePreview class="recipePreview" :recipe="r"/>
       </div>
     </div>
       <b-alert
@@ -273,17 +273,24 @@ export default {
 
 #right-bottom {
   display: grid;
-  margin-top: 30%;
+  margin-top: 35vh;
   grid-template-columns: 200px 200px 200px 200px 200px;
   padding-left: 8%;
   max-height: 40vh !important;
   overflow-y: auto;
+  grid-row-gap: 3rem;
+  grid-column-gap: 3rem;
+}
+
+.card {
+  min-width: 18vw;
 }
 
 .card-body {
     flex: 1 1 auto;
     min-height: 1px;
-    padding: 0.25rem;;
+    padding: 0.25rem;
+    
 }
 
 div#collapse-1 {

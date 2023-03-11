@@ -78,64 +78,70 @@ export default {
 <style lang="scss" scoped>
 @import "@/scss/form-style.scss";
 
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: black;
-  min-height: 100vh;
-  height: 100vh;
-  width: 100vw;
+@media screen {
+  #app {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: black;
+    min-height: 100vh;
+    height: 100vh;
+    width: 100%;
+  }
+
+  #nav {
+    margin: 0;
+    width: 100%;
+    height: 5vh;
+  }
+
+  #nav a:not(#registerLink, #loginLink, #favoritesLink, #privateLink, #familyLink) {
+    font-weight: bold;
+    color: white;
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+
+  #nav a.router-link-exact-active {
+    color: seagreen!important;
+  }
+
+  .navbar.navbar-dark.bg-dark, #footer {
+    background-color: #ABDEBE!important;
+  }
+
+  #footer {
+    height: 3vh;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+  }
+
+  #registerLink, #loginLink {
+    color: black;
+    font-weight: bold;
+    padding-right: 8px;
+    padding-left: 8px;
+  }
+
+  #routerView {
+      min-height: 92vh;
+      margin: 0 auto;
+  }
+
+  #user {
+    display: flex;
+  }
+
+  #guest {
+    float: right;
+  }
+
+  ul.dropdown-menu.show {
+      background: green;
+  }
+
 }
 
-#nav {
-  margin: 0;
-  width: 100%;
-  height: 5vh;
-}
-
-#nav a:not(#registerLink, #loginLink, #favoritesLink, #privateLink, #familyLink) {
-  font-weight: bold;
-  color: white;
-  padding-right: 10px;
-  padding-left: 10px;
-}
-
-#nav a.router-link-exact-active {
-  color: seagreen!important;
-}
-
-.navbar.navbar-dark.bg-dark, #footer {
-  background-color: #ABDEBE!important;
-}
-
-#footer {
-  height: 3vh;
-}
-
-#registerLink, #loginLink {
-  color: black;
-  font-weight: bold;
-  padding-right: 8px;
-  padding-left: 8px;
-}
-
-#routerView {
-    max-height: 92vh;
-    min-height: 92vh;
-    margin: 0 auto;
-}
-
-#user {
-  display: flex;
-}
-
-#guest {
-  float: right;
-}
-
-ul.dropdown-menu.show {
-    background: green;
-}
 
 </style>
